@@ -1,5 +1,7 @@
 package game;
 
+import java.util.Random;
+
 public class Hero extends Flyer {
 	private int doublefire;
 	private int life;
@@ -27,16 +29,24 @@ public class Hero extends Flyer {
 		height=image.getHeight();
 		x=150;
 		y=450;
-		doublefire=0;
+		doublefire=20;
 		life=3;
 		score=0;
 	}
 	
 	
-	
+	/**
+	 * 实现英雄机动画效果，让英雄机的图片在两张图片来回切换
+	 */
 	@Override
 	public void step() {
-		// TODO Auto-generated method stub
+		Random r=new Random();
+		if(r.nextInt(2)==0){
+			image=Game.hero0;
+		}else{
+			image=Game.hero1;
+		}
+		
 		
 	}
 	@Override
@@ -50,7 +60,9 @@ public class Hero extends Flyer {
 	 * @param y
 	 */
 	public void move(int x,int y){
-		
+		//传入的x,y是鼠标的位置
+		this.x=x-width/2;
+		this.y=y-height/2;
 	}
 	/**
 	 * 英雄机获得奖励的方法
@@ -66,8 +78,20 @@ public class Hero extends Flyer {
 	 * 			用数组区别双倍火力
 	 */
 	public Bullet[] shoot(){
-		Bullet[] bullet=null;
-		return bullet;
+		Bullet[] bullets=null;
+		//何时创建双倍火力
+		if(doublefire!=0){//双倍火力
+			bullets=new Bullet[2];
+			Bullet b1=new Bullet(x+width/4,y-Game.bullet.getHeight());
+			Bullet b2=new Bullet(x+width*3/4,y-Game.bullet.getHeight());
+			bullets[0]=b1;
+			bullets[1]=b2;
+			doublefire-=2;
+		}else{
+		bullets=new Bullet[1];
+		bullets[0]=new Bullet(x+width/2, y-Game.bullet.getHeight());
+		}
+		return bullets;
 	}
 	/**
 	 * 碰撞检测

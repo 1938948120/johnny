@@ -36,8 +36,13 @@ public class Bee extends Flyer {
 	
 	@Override
 	public void step() {
-		// TODO Auto-generated method stub
-		
+		// 每次x，y分别一个speed
+		x+=xspeed;
+		y+=yspeed;
+		//蜜蜂不能超出边界，超出就*-1，反向移动
+		if(x<0||x>Game.WIDTH-width){
+			xspeed*=-1;
+		}
 	}
 	@Override
 	public boolean outOfBounds() {
